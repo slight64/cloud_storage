@@ -1,0 +1,12 @@
+.navbar {
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  background-color: white;
+  width: 100%;
+}
+
+.container {
+  width: 1140px;
+  display: flex;
+}

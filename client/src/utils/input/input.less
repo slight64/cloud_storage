@@ -1,0 +1,19 @@
+@import '../../utils/colors.less';
+
+input {
+  border: none;
+  border-bottom: 2px solid @font-color;
+  background: transparent;
+  width: 100%;
+  padding: 3px;
+  &:focus {
+    outline: none;
+    transform: scale(1.03);
+    transition: all 0.3s;
+  }
+}
+
+::-webkit-input-placeholder {
+  color: @font-color;
+  font-weight: 700;
+}
