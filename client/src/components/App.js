@@ -5,7 +5,8 @@ import Registration from './authorization/Registration';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './authorization/Login';
 import { useDispatch, useSelector } from 'react-redux';
-import { auth } from '../action/user';
+// import { auth } from '../action/user';  userSlice
+import { auth } from '../reducers/userSlice';
 import Disk from './disk/Disk';
 import Profile from './profile/Profile';
 

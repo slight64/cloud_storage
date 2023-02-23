@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { registration } from '../../action/user';
+// import { registration } from '../../action/user';
+import { registration } from '../../reducers/userSlice';
 import Input from '../../utils/input/Input';
 import './authorization.less';
 

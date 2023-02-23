@@ -3,12 +3,15 @@ import './navbar.less';
 import Logo from '../../assets/img/cloud_logo.svg';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../reducers/userReducer';
-import { getFiles, searchFiles } from '../../action/file';
-import { setCurrentDir } from '../../reducers/fileReducer';
+// import { logout } from '../../reducers/userReducer'; замена редюсера на setLogout
+// import { getFiles, searchFiles } from '../../action/file';
+
+// import { setCurrentDir } from '../../reducers/fileReducer';
 import { showLoader } from '../../reducers/appReducer';
 import avatarLogo from '../../assets/img/avatar.svg';
 import { API_URL } from '../../config';
+import { setLoguot } from '../../reducers/userSlice';
+import { getFiles, searchFiles } from '../../reducers/fileSlice';
 
 const Navbar = () => {
   const isAuth = useSelector((state) => state.user.isAuth);
@@ -26,7 +29,7 @@ const Navbar = () => {
     if (searchTimeout !== false) {
       clearTimeout(searchTimeout);
     }
-    dispatch(showLoader());
+    // dispatch(showLoader());
     if (event.target.value !== '') {
       setSearchTimeout(
         setTimeout(
@@ -71,7 +74,7 @@ const Navbar = () => {
           <div
             className="navbar__login"
             onClick={() => {
-              dispatch(logout());
+              dispatch(setLoguot());
             }}
           >
             Выход

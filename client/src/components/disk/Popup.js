@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { createDir } from '../../action/file';
-import { setCurrentDir, setPopupDisplay } from '../../reducers/fileReducer';
+// import { createDir } from '../../action/file';
+// import { setCurrentDir, setPopupDisplay } from '../../reducers/fileReducer';
+import {
+  setCurrentDir,
+  setPopupDisplay,
+  createDir,
+} from '../../reducers/fileSlice';
 import Input from '../../utils/input/Input';
 
 const Popup = () => {
@@ -11,7 +16,7 @@ const Popup = () => {
   const currentDir = useSelector((state) => state.files.currentDir);
   const typeName = useSelector((state) => state);
   function createHandler() {
-    dispatch(createDir(currentDir, dirName));
+    dispatch(createDir({ currentDir, dirName }));
     setDirName('');
     dispatch(setPopupDisplay('none'));
   }

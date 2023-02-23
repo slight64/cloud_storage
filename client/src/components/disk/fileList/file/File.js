@@ -1,10 +1,13 @@
-import React from 'react';
 import './file.less';
 import dirLogo from '../../../../assets/img/dir.svg';
 import fileLogo from '../../../../assets/img/file.svg';
-import { pushToStack, setCurrentDir } from '../../../../reducers/fileReducer';
+import {
+  pushToStack,
+  setCurrentDir,
+  deleteFile,
+  downloadFile,
+} from '../../../../reducers/fileSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFile, downloadFile } from '../../../../action/file';
 import sizeFormat from '../../../../utils/sizeFormat';
 
 const File = ({ file }) => {
@@ -13,14 +16,13 @@ const File = ({ file }) => {
   const fileView = useSelector((state) => state.files.view);
 
   function openDirHandler() {
-    // console.log('file', file.type);
     dispatch(pushToStack(currentDir));
     dispatch(setCurrentDir(file._id));
   }
 
   function downloadClickHanler(event) {
     event.stopPropagation();
-    downloadFile(file);
+    dispatch(downloadFile(file));
   }
 
   function deleteClickHandler(event) {

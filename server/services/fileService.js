@@ -22,7 +22,7 @@ class FileService {
   deleteFile(file) {
     const path = this.getPath(file);
     if (file.type === 'dir') {
-      fs.rmdirSync(path);
+      fs.rmdirSync(path, { recursive: true });
     } else {
       fs.unlinkSync(path);
     }

@@ -6,7 +6,7 @@ import {
   changeUploadFile,
   showUploader,
 } from '../reducers/uploadReducer';
-
+const API_URL = 'http://localhost:5000/';
 export function getFiles(dirId, sort) {
   return async (dispatch) => {
     try {
@@ -25,6 +25,7 @@ export function getFiles(dirId, sort) {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
       // console.log('response', response.data);
+
       dispatch(setFiles(response.data));
     } catch (error) {
       alert(error.response.data.message);

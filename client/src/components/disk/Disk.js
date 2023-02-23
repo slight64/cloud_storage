@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFiles, uploadFile } from '../../action/file';
+import { getFiles, uploadFile } from '../../reducers/fileSlice';
 import FileList from './fileList/FileList';
 import './disk.less';
 import Popup from './Popup';
@@ -8,24 +8,21 @@ import {
   setCurrentDir,
   setFileView,
   setPopupDisplay,
-} from '../../reducers/fileReducer';
+} from '../../reducers/fileSlice';
+
 import Uploader from './uploader/Uploader';
 
 const Disk = () => {
   const dispatch = useDispatch();
   const currentDir = useSelector((state) => state.files.currentDir);
   const dirStack = useSelector((state) => state.files.dirStack);
+  const isLoading = useSelector((state) => state.files.loading);
   const [dragEnter, setDragEnter] = useState(false);
   const [sort, setSort] = useState('type');
   const loader = useSelector((state) => state.app.loader);
 
-  // console.log('dirStack', dirStack);
-  // console.log('dirStack length', dirStack[dirStack.length - 2]);
-  // console.log('dirStack.pop()', dirStack.pop());
-  // console.log('currentDir', currentDir);
-
   useEffect(() => {
-    dispatch(getFiles(currentDir, sort));
+    dispatch(getFiles({ currentDir, sort }));
   }, [currentDir, sort]);
 
   function showPopupHandler() {
@@ -40,7 +37,7 @@ const Disk = () => {
 
   function fileUploadHandler(event) {
     const files = [...event.target.files];
-    files.forEach((file) => dispatch(uploadFile(file, currentDir)));
+    files.forEach((file) => dispatch(uploadFile({ file, currentDir })));
   }
 
   function dragEnterHandler(event) {
@@ -69,7 +66,7 @@ const Disk = () => {
     setDragEnter(false);
   }
 
-  if (loader === true) {
+  if (isLoading === true) {
     return (
       <div className="loader">
         <div className="lds-ring">

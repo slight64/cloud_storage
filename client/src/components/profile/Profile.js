@@ -1,11 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { deleteAvatar, uploadAvatar } from '../../action/user';
+import { deleteAvatar, uploadAvatar } from '../../reducers/userSlice';
+// import { deleteAvatar, uploadAvatar } from '../../old.reducer/action/user';
 
 const Profile = () => {
   const dispatch = useDispatch();
   function changeHandler(event) {
-    const file = e.target.files[0];
+    const file = event.target.files[0];
     dispatch(uploadAvatar(file));
   }
   return (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { login } from '../../action/user';
+// import { login } from '../../action/user';
+import { login } from '../../reducers/userSlice';
 import Input from '../../utils/input/Input';
 import './authorization.less';
 
@@ -25,7 +26,7 @@ const Login = () => {
       />
       <button
         className="authorization__btn"
-        onClick={() => dispatch(login(email, password))}
+        onClick={() => dispatch(login({ email, password }))}
       >
         Войти
       </button>

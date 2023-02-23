@@ -1,6 +1,7 @@
 {
   "serverPort": 5000,
-  "dbUrl": "mongodb+srv://slight64:Granata0723@photoplanner.ot4w93y.mongodb.net/?retryWrites=true&w=majority",
+
+  "dbUrl": "mongodb://localhost:27017",
   "secretKey": "mern-secret-key",
   "filePath": "C:\\Fullstack\\cloud_storage\\server\\files",
   "staticPath": "C:\\Fullstack\\cloud_storage\\server\\static"
