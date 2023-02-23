@@ -80,10 +80,7 @@ export const uploadFile = createAsyncThunk(
         }
       );
       dispatch(addFile(response.data));
-    } catch (error) {
-    } finally {
-      dispatch(hideLoader());
-    }
+    } catch (error) {}
   }
 );
 
@@ -109,6 +106,8 @@ export const deleteFile = createAsyncThunk(
 export const searchFiles = createAsyncThunk(
   'files/searchFiles',
   async function (search, { dispatch }) {
+    console.log('🚀 ~ file: fileSlice.js:112 ~ search:', search);
+
     const response = await axios.get(
       `${API_URL}api/files/search?search=${search}`,
       {
@@ -154,6 +153,7 @@ const fileSlice = createSlice({
     currentDir: null,
     popupDisplay: 'none',
     dirStack: [],
+    dirName: [],
     view: 'list',
     loading: false,
   },
@@ -162,9 +162,11 @@ const fileSlice = createSlice({
       state.files = action.payload;
     },
     setCurrentDir(state, action) {
+      console.log(action.payload);
       state.currentDir = action.payload;
-      state.dirStack.filter((item) => item !== action.payload);
+      state.dirStack = state.dirStack.filter((item) => item !== action.payload);
     },
+
     addFile(state, action) {
       return { ...state, files: [...state.files, action.payload] };
     },
@@ -177,6 +179,12 @@ const fileSlice = createSlice({
     setFileView(state, action) {
       state.view = action.payload;
     },
+    addDirName(state, action) {
+      state.dirName.push(action.payload);
+    },
+    removeDirName(state, action) {
+      state.dirName = state.dirName.slice(0, -1);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -184,6 +192,9 @@ const fileSlice = createSlice({
         state.loading = true;
       })
       .addCase(getFiles.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(getFiles.rejected, (state) => {
         state.loading = false;
       })
       .addCase(deleteFile.pending, (state) => {
@@ -206,6 +217,8 @@ export const {
   pushToStack,
   deleteFileAction,
   setFileView,
+  addDirName,
+  removeDirName,
 } = fileSlice.actions;
 
 export default fileSlice.reducer;

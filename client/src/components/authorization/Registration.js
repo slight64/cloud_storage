@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 // import { registration } from '../../action/user';
 import { registration } from '../../reducers/userSlice';
 import Input from '../../utils/input/Input';
 import './authorization.less';
 
 const Registration = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   return (
@@ -24,7 +26,7 @@ const Registration = () => {
       />
       <button
         className="authorization__btn"
-        onClick={() => registration(email, password)}
+        onClick={() => dispatch(registration({ email, password }))}
       >
         Зарегистрироваться
       </button>

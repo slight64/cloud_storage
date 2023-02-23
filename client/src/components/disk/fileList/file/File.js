@@ -6,6 +6,7 @@ import {
   setCurrentDir,
   deleteFile,
   downloadFile,
+  addDirName,
 } from '../../../../reducers/fileSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import sizeFormat from '../../../../utils/sizeFormat';
@@ -18,6 +19,7 @@ const File = ({ file }) => {
   function openDirHandler() {
     dispatch(pushToStack(currentDir));
     dispatch(setCurrentDir(file._id));
+    dispatch(addDirName(file.name));
   }
 
   function downloadClickHanler(event) {

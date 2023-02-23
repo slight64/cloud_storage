@@ -5,6 +5,7 @@ import { configureStore } from '@reduxjs/toolkit';
 // import fileReducer from './fileReducer';
 import fileReducer from './fileSlice';
 // import userReducer from './userReducer';
+// import uploadReducer from './uploadSlice';
 import userReducer from './userSlice';
 import uploadReducer from './uploadReducer';
 import appReducer from './appReducer';

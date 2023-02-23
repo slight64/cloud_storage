@@ -11,7 +11,8 @@ export const registration = createAsyncThunk(
         email,
         password,
       });
-      alert(response.data);
+      // console.log(response.data);
+      alert(response.data.message);
     } catch (error) {
       return rejectWithValue(error.message);
     }

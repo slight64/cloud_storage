@@ -1,38 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFiles, uploadFile } from '../../reducers/fileSlice';
 import FileList from './fileList/FileList';
 import './disk.less';
 import Popup from './Popup';
 import {
   setCurrentDir,
   setFileView,
-  setPopupDisplay,
+  removeDirName,
+  getFiles,
+  uploadFile,
 } from '../../reducers/fileSlice';
 
 import Uploader from './uploader/Uploader';
+import ContextMenu from '../../utils/contextMenu/ContextMenu';
+import CreateFolder from '../../utils/buttons/createFolder/CreateFolder';
 
 const Disk = () => {
   const dispatch = useDispatch();
   const currentDir = useSelector((state) => state.files.currentDir);
   const dirStack = useSelector((state) => state.files.dirStack);
+  const dirName = useSelector((state) => state.files.dirName);
   const isLoading = useSelector((state) => state.files.loading);
   const [dragEnter, setDragEnter] = useState(false);
   const [sort, setSort] = useState('type');
-  const loader = useSelector((state) => state.app.loader);
+  // const loader = useSelector((state) => state.app.loader);
 
   useEffect(() => {
     dispatch(getFiles({ currentDir, sort }));
   }, [currentDir, sort]);
 
-  function showPopupHandler() {
-    dispatch(setPopupDisplay('flex'));
-  }
-
   function backClickHandler() {
-    // Проверить насколько верное решение принято при изменении массива в стейте для того, чтобы вернуться на уровень назад
-    const backDirId = dirStack[dirStack.length - 1];
-    dispatch(setCurrentDir(backDirId));
+    const dirId = dirStack[dirStack.length - 1];
+    dispatch(removeDirName());
+    dispatch(setCurrentDir(dirId));
   }
 
   function fileUploadHandler(event) {
@@ -62,9 +62,30 @@ const Disk = () => {
     event.preventDefault();
     event.stopPropagation();
     let files = [...event.dataTransfer.files];
-    files.forEach((file) => dispatch(uploadFile(file, currentDir)));
+    files.forEach((file) => dispatch(uploadFile({ file, currentDir })));
     setDragEnter(false);
   }
+
+  //Контекстное меню
+  const initialContextMenu = {
+    show: false,
+    x: 0,
+    y: 0,
+  };
+  const [contextMune, setcontextMune] = useState(initialContextMenu);
+
+  const onContextMeneHandler = (event) => {
+    event.preventDefault();
+    const { pageX, pageY } = event;
+    setcontextMune({ show: true, x: pageX, y: pageY });
+
+    console.log(event);
+    // event.stopPropagation();
+  };
+
+  const closeContextMenu = () => {
+    setcontextMune(initialContextMenu);
+  };
 
   if (isLoading === true) {
     return (
@@ -85,14 +106,25 @@ const Disk = () => {
       onDragEnter={dragEnterHandler}
       onDragLeave={dragLeaveHandler}
       onDragOver={dragEnterHandler}
+      onContextMenu={(event) => {
+        onContextMeneHandler(event);
+      }}
     >
+      <div className="disk__dir-stack">{'root//:' + dirName.join('/')}</div>
       <div className="disk__btns">
+        {contextMune.show && (
+          <ContextMenu
+            x={contextMune.x}
+            y={contextMune.y}
+            closeContextMenu={closeContextMenu}
+            target={'Хуй'}
+          />
+        )}
         <button className="disk__back" onClick={() => backClickHandler()}>
           Назад
         </button>
-        <button className="disk__create" onClick={() => showPopupHandler()}>
-          Создать папку
-        </button>
+        <CreateFolder />
+
         <div className="disk__upload">
           <label htmlFor="disk__upload-input" className="disk__upload-label">
             Загрузить фаил

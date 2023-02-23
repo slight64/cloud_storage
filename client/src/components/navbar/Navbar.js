@@ -3,10 +3,6 @@ import './navbar.less';
 import Logo from '../../assets/img/cloud_logo.svg';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import { logout } from '../../reducers/userReducer'; замена редюсера на setLogout
-// import { getFiles, searchFiles } from '../../action/file';
-
-// import { setCurrentDir } from '../../reducers/fileReducer';
 import { showLoader } from '../../reducers/appReducer';
 import avatarLogo from '../../assets/img/avatar.svg';
 import { API_URL } from '../../config';
@@ -41,7 +37,7 @@ const Navbar = () => {
         )
       );
     } else {
-      dispatch(getFiles(currentDir));
+      dispatch(getFiles({ currentDir }));
     }
   }
 
